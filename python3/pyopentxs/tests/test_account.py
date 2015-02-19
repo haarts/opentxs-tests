@@ -88,3 +88,29 @@ def test_create_account_nonexistent_asset():
 def test_delete_account(an_account):
     an_account.create()
     an_account.delete()
+
+
+def test_account_count_increments(an_account):
+    then = opentxs.OTAPI_Wrap_GetAccountCount()
+    an_account.create()
+    now = opentxs.OTAPI_Wrap_GetAccountCount()
+    assert then + 1 == now
+
+
+def test_account_id_retrievable(an_account):
+    an_account.create()
+    asset_id = opentxs.OTAPI_Wrap_GetAccountWallet_InstrumentDefinitionID(an_account._id)
+    assert asset_id == an_account.asset._id
+
+
+def test_account_data_retrievable(an_account):
+    an_account.name = "my foo account"
+    an_account.create()
+    internal_name = opentxs.OTAPI_Wrap_GetAccountWallet_Name(an_account._id)
+    assert an_account.name == internal_name
+    notary_id = opentxs.OTAPI_Wrap_GetAccountWallet_NotaryID(an_account._id)
+    assert notary_id == an_account.server_id
+    nym_id = opentxs.OTAPI_Wrap_GetAccountWallet_NymID(an_account._id)
+    assert nym_id == an_account.nym._id
+    acct_type = opentxs.OTAPI_Wrap_GetAccountWallet_Type(an_account._id)
+    assert acct_type == "simple"
