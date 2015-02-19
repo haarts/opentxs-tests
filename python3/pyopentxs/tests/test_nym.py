@@ -93,3 +93,5 @@ def test_client_knows_nym_registered():
     assert not opentxs.OTAPI_Wrap_IsNym_RegisteredAtServer(me._id, server.first_active_id())
     me.register()
     assert opentxs.OTAPI_Wrap_IsNym_RegisteredAtServer(me._id, me.server_id)
+    me.delete()
+    assert not opentxs.OTAPI_Wrap_IsNym_RegisteredAtServer(me._id, server.first_active_id())

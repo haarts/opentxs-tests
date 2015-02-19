@@ -3,6 +3,7 @@ from pyopentxs.asset import Asset
 from pyopentxs import account, error, ReturnValueError, server
 from pyopentxs.tests import data
 import pytest
+import opentxs
 
 
 @pytest.fixture(scope='function')
@@ -11,6 +12,11 @@ def an_account():
     nym = Nym().register()
     asset = Asset().issue(nym, open(data.btc_contract_file))
     return account.Account(asset, Nym().register())
+
+
+@pytest.fixture(scope='function')
+def an_asset():
+    return Asset().issue(Nym().register(), open(data.btc_contract_file))
 
 
 def test_create_account(an_account):
@@ -29,6 +35,30 @@ def test_account_nym_not_registered():
 def test_asset_nym_not_registered():
     with error.expected(ReturnValueError):
         Asset().issue(Nym().create(), open(data.btc_contract_file))
+
+
+def test_asset_count_increments():
+    then = opentxs.OTAPI_Wrap_GetAssetTypeCount()
+    Asset().issue(Nym().register(), open(data.btc_contract_file))
+    now = opentxs.OTAPI_Wrap_GetAssetTypeCount()
+    assert then + 1 == now
+
+
+def test_asset_id_retrievable(an_asset):
+    num_assets = opentxs.OTAPI_Wrap_GetAssetTypeCount()
+    ids = [opentxs.OTAPI_Wrap_GetAssetType_ID(i) for i in range(num_assets)]
+    assert an_asset._id in set(ids)
+
+
+def test_asset_attributes_retrievable(an_asset):
+    assert opentxs.OTAPI_Wrap_GetAssetType_Name(an_asset._id) == "Bitcoins"
+    assert opentxs.OTAPI_Wrap_GetAssetType_TLA(an_asset._id) == "BTC"
+
+
+def test_asset_attributes_nonexistent_id():
+    """Ensure empty return value if asset id not found"""
+    assert opentxs.OTAPI_Wrap_GetAssetType_Name("foo") == ""
+    assert opentxs.OTAPI_Wrap_GetAssetType_TLA("bar") == ""
 
 
 def test_two_assets_same_nym_and_contract():
