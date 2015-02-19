@@ -2,6 +2,7 @@ from pyopentxs.nym import Nym
 from pyopentxs.tests import data
 from pyopentxs import error, nym, ReturnValueError, server
 import pytest
+import opentxs
 
 
 def test_register_nym():
@@ -85,3 +86,10 @@ def test_check_nym_unregistered():
     me = Nym().register()
     with error.expected(ReturnValueError):
         nym.check(server.first_active_id(), me._id, Nym().create()._id)
+
+
+def test_client_knows_nym_registered():
+    me = Nym().create()
+    assert not opentxs.OTAPI_Wrap_IsNym_RegisteredAtServer(me._id, server.first_active_id())
+    me.register()
+    assert opentxs.OTAPI_Wrap_IsNym_RegisteredAtServer(me._id, me.server_id)
