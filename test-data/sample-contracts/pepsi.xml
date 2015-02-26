@@ -10,7 +10,7 @@ email="johann@monetas.net"
 contractUrl="http://monetas.net/"
 type="shares"/>
 
-<shares name="pepsi shares" symbol="PEP" type="decimal" issuedate="0"/>
+<shares name="pepsi shares" symbol="PEP" type="decimal" issueDate="0"/>
 
 <!-- CONDITIONS -->
 

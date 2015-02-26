@@ -13,7 +13,7 @@ Hash: SAMY
  contractUrl="https://swedishcoins.net/contract"
  type="currency"/>
 
-<currency name="Bitcoins" tla="BTC" symbol="BTC" type="decimal" factor="1000" decimal_power="3" fraction="mBTC" />
+<currency name="Bitcoins" tla="BTC" symbol="BTC" type="decimal" factor="1000" decimalPower="3" fraction="mBTC" />
 
 <!-- CONDITIONS -->
 

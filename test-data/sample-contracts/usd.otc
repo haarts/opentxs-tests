@@ -13,7 +13,7 @@ Hash: SAMY
  contractUrl="https://fed.gov/wickedness"
  type="currency"/>
 
-<currency name="US Dollars" tla="USD" symbol="$" type="decimal" factor="100" decimal_power="2" fraction="cents" />
+<currency name="US Dollars" tla="USD" symbol="$" type="decimal" factor="100" decimalPower="2" fraction="cents" />
 
 <!-- CONDITIONS -->
 

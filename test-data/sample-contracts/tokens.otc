@@ -13,7 +13,7 @@ Hash: SAMY
  contractUrl="https://chuckecheese.com/games/contract/"
  type="currency"/>
 
-<currency name="game tokens" tla="TOKEN" symbol="tks" type="decimal" factor="1" decimal_power="0" fraction="mg" />
+<currency name="game tokens" tla="TOKEN" symbol="tks" type="decimal" factor="1" decimalPower="0" fraction="mg" />
 
 <!-- CONDITIONS -->
 
